@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="563.0" prefWidth="937.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml" fx:controller="MenuController">
+   <children>
+      <Label layoutX="290.0" layoutY="184.0" prefHeight="400.0" prefWidth="400.0" scaleX="2.0" scaleY="2.0" text="When this feature will be added it will allow users to play,save and share randomly generater crosswords. In order for to be added, I need to fill out the clues for all 13,000 words.However, as a finite being, I can't do that by myself. Please, suggest a clue for one of the words here: https://forms.gle/GsWT9pu6ncixyqbQ8,to help this project." wrapText="true" />
+      <Hyperlink onAction="#sendToForm" layoutX="212.0" layoutY="453.0" scaleX="2.0" scaleY="2.0" text="https://forms.gle/GsWT9pu6ncixyqbQ8" />
+   </children>
+</AnchorPane>

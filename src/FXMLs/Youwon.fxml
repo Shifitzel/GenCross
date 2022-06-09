@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="354.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="youwonController">
+   <children>
+      <Label layoutX="91.0" layoutY="56.0" prefHeight="16.0" prefWidth="173.0" scaleX="2.0" scaleY="2.0" text=" Congratulations you won!" />
+      <Label layoutX="56.0" layoutY="113.0" prefHeight="16.0" prefWidth="75.0" scaleX="1.5" scaleY="1.5" text="It took you" />
+      <Label fx:id="secondsLabel" layoutX="159.0" layoutY="113.0" scaleX="1.5" scaleY="1.5" text="Label" />
+      <Label layoutX="223.0" layoutY="113.0" scaleX="1.5" scaleY="1.5" text="seconds" />
+      <Label layoutX="81.0" layoutY="156.0" scaleX="1.5" scaleY="1.5" text="to complete the crossword." />
+      <Button layoutX="110.0" layoutY="284.0" mnemonicParsing="false" onAction="#returnToMenu" scaleX="2.0" scaleY="2.0" text="Return to menu" />
+      <Label fx:id="hintsLabelSuppportingText1" layoutX="58.0" layoutY="209.0" scaleX="1.5" scaleY="1.5" text="You used" />
+      <Label fx:id="hintsLabel" layoutX="148.0" layoutY="209.0" scaleX="1.5" scaleY="1.5" text="Hint" />
+      <Label fx:id="hintsLabelSuppportingText2" layoutX="201.0" layoutY="209.0" scaleX="1.5" scaleY="1.5" text="hints" />
+   </children>
+</AnchorPane>
