@@ -1,8 +1,47 @@
 #include <string>
+#include <vector>
 
-class Five_Letter{
-    public:
-std::string arr[8918] {
+
+std::vector<std::string> Words_Lists[4];
+std::vector<int> Words_Lists_Begginings_And_Ends[4];
+
+
+int find_in_list(std::vector<std::string> &List, const std::string& string_to_find, int startIndex = 0, int endIndex = 0, int subStringStart = 0){ // this function is modified from a BinarySearchString function I found on GeeksforGeeks.com
+        int l = startIndex;
+        int r = endIndex;
+        if (endIndex == 0) {
+            r = List.size()-1;
+        }
+        while (l <= r && r != -1)
+        {
+            int m = l + (r - l) / 2;
+        int res = -1000;   
+
+        if (string_to_find == List[m].substr(subStringStart,string_to_find.length()))
+            res = 0;
+             
+ 
+            // Check if string to find is present at mid
+            if (res == 0)
+                return m;
+ 
+            // If string to find greater, ignore left half
+            if (string_to_find > (List[m].substr(subStringStart,string_to_find.length())))
+                l = m + 1;
+ 
+            // If string to find is smaller, ignore right half
+            else
+                r = m - 1;
+        }
+
+
+        return -1;
+  }
+
+void make_word_lists() {
+
+
+Words_Lists[3] = std::vector <std::string>  {
 "AAHED",
 "AALII",
 "AARGH",
@@ -2494,9 +2533,7 @@ std::string arr[8918] {
 "FADOS",
 "FAENA",
 "FAERY",
-"FAGGY",
 "FAGIN",
-"FAGOT",
 "FAILS",
 "FAINT",
 "FAIRS",
@@ -3273,7 +3310,6 @@ std::string arr[8918] {
 "GROIN",
 "GROKS",
 "GROOM",
-"GROPE",
 "GROSS",
 "GROSZ",
 "GROTS",
@@ -5238,7 +5274,6 @@ std::string arr[8918] {
 "NOTES",
 "NOTUM",
 "NOUNS",
-"NOVAE",
 "NOVAS",
 "NOVEL",
 "NOWAY",
@@ -6145,7 +6180,6 @@ std::string arr[8918] {
 "RANTS",
 "RAPED",
 "RAPER",
-"RAPES",
 "RAPHE",
 "RAPID",
 "RARED",
@@ -8922,28 +8956,8 @@ std::string arr[8918] {
 "ZUZIM",
 "ZYMES" };
 
-std::string arr_clues[25] {
-"Audiozition of enjoyment.",
-"Small british shrub.",
-"Audiozition of rage.",
-"Philippian banana tree",
-"Multiple playground computers",
-"Behind the head",
-"The way of the back",
-"AI good with money",
-"Ruining your career",
-"Emberess someone without the Bourne Again Shell",
-"Detensified",
-"Clothes is Muslim fashion",
-"Islamic lion",
-"Member of the French clergy"
 
-};
-
-};
-class Four_Letter {
-    public:
-std::string arr[4024] {
+Words_Lists[2] = std::vector<std::string> {
 "AAHS",
 "AALS",
 "ABAS",
@@ -9989,7 +10003,6 @@ std::string arr[4024] {
 "FADE",
 "FADO",
 "FADS",
-"FAGS",
 "FAIL",
 "FAIN",
 "FAIR",
@@ -11806,7 +11819,6 @@ std::string arr[4024] {
 "RANI",
 "RANK",
 "RANT",
-"RAPE",
 "RAPS",
 "RAPT",
 "RARE",
@@ -12969,10 +12981,8 @@ std::string arr[4024] {
 "ZOUK",
 "ZYME"
  };
-};
-class Three_Letter {
-    public:
-std::string arr[1013]  {
+
+Words_Lists[1] = std::vector <std::string>   {
 "AAH",
 "AAL",
 "AAS",
@@ -13233,7 +13243,6 @@ std::string arr[1013]  {
 "EYE",
 "FAB",
 "FAD",
-"FAG",
 "FAN",
 "FAR",
 "FAS",
@@ -13987,8 +13996,7 @@ std::string arr[1013]  {
 "ZUZ",
 "ZZZ" };
 
-};
 
-Five_Letter Five_Letter_Words;
-Four_Letter Four_Letter_Words;
-Three_Letter Three_Letter_Words;
+
+}
+
