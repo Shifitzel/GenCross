@@ -1,4 +1,4 @@
-# GenCross-V-0.0.2
+# GenCross-V-0.5
 This is the source code for GenCross. GenCross is an application that allows you to make, play, randomly generate, and share mini crosswords. 
 
 In order to run this app, you need JavaFX installed and configured. 
