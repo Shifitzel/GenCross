@@ -1,14 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="MenuController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" >
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
    <children>
-      <Button onAction="#makeNewCrossword" layoutX="26.0" layoutY="200.0" mnemonicParsing="false" text="Make New Crossword" />
-      <Button onAction="#generateCrossword" layoutX="225.0" layoutY="200.0" mnemonicParsing="false" text="Generate Crossword" />
-      <Button onAction="#loadCrossword" layoutX="422.0" layoutY="200.0" mnemonicParsing="false" text="Load Crossword" />
-      <Label layoutX="206.0" layoutY="74.0" prefHeight="33.0" prefWidth="188.0" scaleX="3.0" scaleY="3.0" text="Welcome to GenCross!" />
+      <Button layoutX="26.0" layoutY="200.0" mnemonicParsing="false" onAction="#makeNewCrossword" text="Make New Crossword" />
+      <Button layoutX="225.0" layoutY="200.0" mnemonicParsing="false" onAction="#generateCrossword" text="Generate Crossword" />
+      <Button layoutX="422.0" layoutY="200.0" mnemonicParsing="false" onAction="#loadCrossword" text="Play Crossword" />
+      <Label layoutX="250.0" layoutY="74.0" prefHeight="33.0" prefWidth="188.0" scaleX="3.0" scaleY="3.0" text="Welcome to GenCross!" />
+      <TextField fx:id="textField" layoutX="282.0" layoutY="298.0" />
+      <Button layoutX="139.0" layoutY="298.0" mnemonicParsing="false" onAction="#onEnterCrosswordPressed" text="Enter Crossword" />
+      <Button layoutX="540.0" layoutY="14.0" mnemonicParsing="false" text="Info" onAction="#onInfoPressed" />
   
    </children>
 </AnchorPane>
