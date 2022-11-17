@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 public class Tiles {
 
     protected Tile currentTile;
+    protected boolean previousRoworColumn = false;
     protected boolean RoworColumn = false;
     protected StopWatch stopWatch = new StopWatch();
     protected ArrayList<ArrayList<Tile>> list = new ArrayList<ArrayList<Tile>>();
@@ -25,13 +26,13 @@ public class Tiles {
     protected AnchorPane anchorPane = new AnchorPane();
 
      public Tiles() {
-        
+                 
 
-         anchorPane.setPrefSize(1000,700);
+         anchorPane.setPrefSize(1120,630);
          anchorPane.setStyle("-fx-background-color: brown");   
          Label acrossLabel = new Label("Horizantal");
          
-        acrossLabel.setLayoutX(625);
+        acrossLabel.setLayoutX(825);
         acrossLabel.setLayoutY(-50);
         acrossLabel.setPrefSize(200, 200);
        acrossLabel.setFont(Font.font("Times New Roman", 20));
@@ -41,7 +42,7 @@ public class Tiles {
 
          for (int i = 0; i <5; i++){
             Label numberLabel = new Label(String.valueOf(i+1)+'.');
-            numberLabel.setLayoutX(625);
+            numberLabel.setLayoutX(750);
             numberLabel.setLayoutY(-20+i*50);
             numberLabel.setPrefSize(200, 200);
            numberLabel.setFont(Font.font("Times New Roman", 15));
@@ -50,7 +51,7 @@ public class Tiles {
          }  
 
           Label downLabel = new Label("Vertical");  
-         downLabel.setLayoutX(625);
+         downLabel.setLayoutX(825);
         downLabel.setLayoutY(260);
         downLabel.setPrefSize(200, 200);
         downLabel.setFont(Font.font("Times New Roman", 20));
@@ -59,7 +60,7 @@ public class Tiles {
 
          for (int i = 0; i <5; i++){
             Label numberLabel = new Label(String.valueOf(i+1)+'.');
-            numberLabel.setLayoutX(625);
+            numberLabel.setLayoutX(750);
             numberLabel.setLayoutY(290+i*50);
             numberLabel.setPrefSize(200, 200);
            numberLabel.setFont(Font.font("Times New Roman", 15));
@@ -72,9 +73,9 @@ public class Tiles {
             for (int c = 0; c < 5; c++) {
                 Tile tempTile = new Tile();
                 tempTile.stackPane.setLayoutY(c*100+100);
-                tempTile.stackPane.setLayoutX(r*100+100);
-                tempTile.column = c;
-                tempTile.row = r;
+                tempTile.stackPane.setLayoutX(r*100+200);
+                tempTile.row = c;
+                tempTile.column = r;
                 temp.add(tempTile);
                 anchorPane.getChildren().add(tempTile.stackPane);
             }            
@@ -83,13 +84,18 @@ public class Tiles {
         
         scene = new Scene(anchorPane);
 
-        scene.setOnKeyPressed(e-> {
-            currentTile.currentValue = keyCodeToCharacter(e.getCode());
-            switchTile();
-        });
  
 
-    }         
+    }    
+    
+    public String decodeString(String s, int addition) {
+        StringBuilder stringBuilder = new StringBuilder(s);
+        for (int i = 0; i < s.length(); i++) {
+            stringBuilder.setCharAt(i,(char) (s.charAt(i)-(addition*'a') ) );
+
+        }
+        return stringBuilder.toString();
+    }
 
     public char keyCodeToCharacter(KeyCode keyCode) {
         if (keyCode == KeyCode.A) {
@@ -170,6 +176,10 @@ public class Tiles {
                  else if (keyCode == KeyCode.Z) {
                                  return 'Z';
                              } 
+                  else if (keyCode == KeyCode.BACK_SPACE) {
+                    
+                    return ' ';
+                  }              
                 return '0';         
          
      }
@@ -183,34 +193,34 @@ public class Tiles {
         label.setText(Character.toString(currentTile.currentValue));
         int nextAvalableTile = 1;
 
-        if (currentTile.row+nextAvalableTile < 5 || currentTile.column+nextAvalableTile < 5) {
+        if (currentTile.column+nextAvalableTile < 5 || currentTile.row+nextAvalableTile < 5) {
         if (RoworColumn) {
-             while (currentTile.row+nextAvalableTile < 5 && !list.get(currentTile.row+nextAvalableTile).get(currentTile.column).writeable )  {
+             while (currentTile.column+nextAvalableTile < 5 && !list.get(currentTile.column+nextAvalableTile).get(currentTile.row).writeable )  {
                  nextAvalableTile++;
              }
-            if (currentTile.row+nextAvalableTile < 5) { 
-          list.get(currentTile.row+nextAvalableTile).get(currentTile.column).selectTile(false,0); 
+            if (currentTile.column+nextAvalableTile < 5) { 
+          list.get(currentTile.column+nextAvalableTile).get(currentTile.row).selectTile(false,0); 
           } else {
             nextAvalableTile = 0;
-            while (nextAvalableTile < 5 && currentTile.column < 4 && !list.get(nextAvalableTile).get(currentTile.column+1).writeable )  {
+            while (nextAvalableTile < 5 && currentTile.row < 4 && !list.get(nextAvalableTile).get(currentTile.row+1).writeable )  {
              nextAvalableTile++;
             }
-                if (currentTile.column < 4) {
-            list.get(nextAvalableTile).get(currentTile.column+1).selectTile(false,0); }
+                if (currentTile.row < 4) {
+            list.get(nextAvalableTile).get(currentTile.row+1).selectTile(false,0); }
           }           
        } 
         else {
-         while (currentTile.column+nextAvalableTile < 5 && !list.get(currentTile.row).get(currentTile.column+nextAvalableTile).writeable)  {
+         while (currentTile.row+nextAvalableTile < 5 && !list.get(currentTile.column).get(currentTile.row+nextAvalableTile).writeable)  {
              nextAvalableTile++;
          }
-            if (currentTile.column+nextAvalableTile < 5) {
-           list.get(currentTile.row).get(currentTile.column+nextAvalableTile).selectTile(false,0); 
+            if (currentTile.row+nextAvalableTile < 5) {
+           list.get(currentTile.column).get(currentTile.row+nextAvalableTile).selectTile(false,0); 
          } else {
              nextAvalableTile = 0;
-             while (nextAvalableTile < 5 &&  ! list.get(currentTile.row+1).get(nextAvalableTile).writeable)  {
+             while (nextAvalableTile < 5 &&  ! list.get(currentTile.column+1).get(nextAvalableTile).writeable)  {
                  nextAvalableTile++;
              }
-            list.get(currentTile.row+1).get(nextAvalableTile).selectTile(false,0);
+            list.get(currentTile.column+1).get(nextAvalableTile).selectTile(false,0);
            }     
         }
     }
@@ -219,9 +229,9 @@ public class Tiles {
 
     public class Tile{
         StackPane stackPane = new StackPane();
-        int column;
         int row;
-        Character currentValue;
+        int column;
+        Character currentValue = ' ';
         boolean writeable = true;
 
         public void selectTile(boolean SwitchWay, int WhichWay) {
@@ -229,19 +239,24 @@ public class Tiles {
                 RoworColumn = true;
             } else if (WhichWay == 2) {
                 RoworColumn = false;
-            }
+            } 
 
-            if (writeable && !paused) {
+            if ( !paused) {
                if (currentTile != null) { 
-                for (int i = 0; i < 5; i++) {
-                    if ((!RoworColumn) ||  (SwitchWay && WhichWay == 2) || (WhichWay ==1 && RoworColumn && SwitchWay))   {
-                     Tile tile = (Tile)(list.get(currentTile.row).get(i));
+                  
+            if ( !currentTile.writeable ) {
+                Rectangle previousRectangle = (Rectangle)currentTile.stackPane.getChildren().get(0);  
+                 previousRectangle.setFill(Color.WHITE);
+             }   
+               for (int i = 0; i < 5; i++) {
+                    if ( !previousRoworColumn )   {
+                     Tile tile = (Tile)(list.get(currentTile.column).get(i));
                       if (tile.writeable) {
                        Rectangle rectangle = (Rectangle)(tile.stackPane.getChildren().get(0));   
                       rectangle.setFill(Color.BLACK); 
                         } 
                       } else {
-                           Tile tile = (Tile)(list.get(i).get(currentTile.column));
+                           Tile tile = (Tile)(list.get(i).get(currentTile.row));
                            if (tile.writeable) {
                             Rectangle rectangle = (Rectangle)(tile.stackPane.getChildren().get(0));   
                            rectangle.setFill(Color.BLACK); 
@@ -249,12 +264,19 @@ public class Tiles {
                       } 
                   }  
                 
-                  Rectangle previousRectangle = (Rectangle)stackPane.getChildren().get(0);  
-                  previousRectangle.setFill(Color.RED);                
-                    if ((currentTile.row != row || currentTile.column != column) && currentTile.writeable) {
+                  Rectangle previousRectangle = new Rectangle();
+                  if (writeable) {
+                   previousRectangle = (Rectangle)stackPane.getChildren().get(0);  
+                  previousRectangle.setFill(Color.RED);      
+                  } else {
+                     previousRectangle = (Rectangle)stackPane.getChildren().get(0);  
+                    previousRectangle.setFill(Color.GREY);
+                  }          
+
+                    if ((currentTile.column != column || currentTile.row != row) && currentTile.writeable & writeable) {
                         if (SwitchWay) {
                             RoworColumn = false; } 
-                        if (SwitchWay && ((currentTile.row == row && RoworColumn) || (!RoworColumn && currentTile.column == column))) {
+                        if (SwitchWay && ((currentTile.column == column && RoworColumn) || (!RoworColumn && currentTile.row == row))) {
                              previousRectangle = (Rectangle)currentTile.stackPane.getChildren().get(0);  
                              previousRectangle.setFill(Color.BLUE);
                         } 
@@ -263,21 +285,29 @@ public class Tiles {
                     currentTile = this;
                     Rectangle previousRectangle = (Rectangle)stackPane.getChildren().get(0);  
                     previousRectangle.setFill(Color.RED);
+                    if (!writeable) {
+                        previousRectangle = (Rectangle)stackPane.getChildren().get(0);  
+                        previousRectangle.setFill(Color.GREY);
+                    }
                 }
                 
                 currentTile = this;
 
+                if (SwitchWay) {
+                    currentTile.stackPane.requestFocus();    
+                }
+                if (writeable) {
                 for (int i = 0; i < 5; i++) {
                   if (RoworColumn == SwitchWay)   {
-                    if (i != column) {
-                   Tile tile = (Tile)(list.get(row).get(i));
+                    if (i != row) {
+                   Tile tile = (Tile)(list.get(column).get(i));
                    if (tile.writeable) {
                    Rectangle rectangle = (Rectangle) tile.stackPane.getChildren().get(0);
                     rectangle.setFill(Color.BLUE); }
                         }  
                     } else {
-                        if (i != row) {
-                         Tile tile = (Tile)(list.get(i).get(column));
+                        if (i != column) {
+                         Tile tile = (Tile)(list.get(i).get(row));
                          if (tile.writeable) {
                             Rectangle rectangle = (Rectangle) tile.stackPane.getChildren().get(0);
                              rectangle.setFill(Color.BLUE); }
@@ -288,6 +318,8 @@ public class Tiles {
                 if (SwitchWay) {
                 RoworColumn = !RoworColumn;
             }
+        }
+            previousRoworColumn = RoworColumn;
             }
 
 
@@ -307,15 +339,19 @@ public class Tiles {
         public void setWritable(boolean value) {
             if (value) {
                 writeable = true;
-                currentValue = null;
+                currentValue = ' ';
                 Rectangle rectangle = (Rectangle) stackPane.getChildren().get(0); 
-                rectangle.setFill(Color.BLACK);  
+                if (rectangle.getFill() != Color.RED && rectangle.getFill() != Color.BLUE) {
+                rectangle.setFill(Color.BLACK);  }
                 Label label = (Label) stackPane.getChildren().get(1);
                 label.setText(" ");
             } else {
                 currentValue = '0';
+                Label label = (Label) stackPane.getChildren().get(1);
+                label.setText(" ");
                 writeable = false;
                 Rectangle rectangle = (Rectangle) stackPane.getChildren().get(0); 
+
                 rectangle.setFill(Color.WHITE);            }
         }
 

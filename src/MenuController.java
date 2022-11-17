@@ -6,16 +6,23 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+
+
 
 public class MenuController {
     
     public static Stage menuControllerstage = new Stage();
 
+    @FXML
+    private TextField textField;
+
 
     @FXML
     public void makeNewCrossword() { 
-        TileMaker tiles = new TileMaker();
+        TileMakerContext tiles = new TileMakerContext();
         menuControllerstage.setScene(tiles.scene);
         menuControllerstage.setTitle("Make New Crossword");
         menuControllerstage.show();
@@ -24,7 +31,7 @@ public class MenuController {
 
     @FXML
     public void loadCrossword() {
-        PlayedTiles tiles = new PlayedTiles();
+        PlayedTiles tiles = new PlayedTiles(1,null);
         menuControllerstage.setScene(tiles.scene);
         menuControllerstage.setTitle("Load Crossword");
         menuControllerstage.show();
@@ -54,6 +61,25 @@ public class MenuController {
         }    
     }
 
+    @FXML
+    public void onEnterCrosswordPressed(){
+        PlayedTiles tiles = new PlayedTiles(2,textField.getText());
+        menuControllerstage.setScene(tiles.scene);
+        menuControllerstage.setTitle("Load Crossword");
+        menuControllerstage.show();
+    }    
+
+    @FXML 
+    public void onInfoPressed(){
+            try {
+            Parent root = FXMLLoader.load(getClass().getResource("FXMLs/GenCrossInfo.fxml")); 
+            Stage stage = new Stage();
+            stage.setTitle("GenCrossInfo");
+            stage.setScene(new Scene(root));
+            stage.show();  }
+            catch (IOException e) {e.printStackTrace();}
+    
+        }
 
 
 

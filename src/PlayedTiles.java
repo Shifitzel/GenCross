@@ -38,38 +38,55 @@ public class PlayedTiles extends Tiles {
     private Label timerLabel = new Label("0");
     public static StopWatch stopWatch = new StopWatch(); 
   
+    private void makeCrossword(String s){
+        int position = 0;
+        int previousPosition = 0;
+        for (int i = 0; i < 5; i++) {
+            position = s.indexOf((char)(87),previousPosition);
+            correctCrossword.add(decodeString(s.substring(previousPosition, position),1));
+            previousPosition = position+1;
+            if (correctCrossword.get(i).length() != 5) {
+             System.out.println("Error: not proper .mncd file.");
+                return;
+            }
+        }
+ 
+        for (int i = 0; i < 10; i++) {
+             position = s.indexOf((char)(87),previousPosition);
+            CrosswordClues.add(decodeString(s.substring(previousPosition, position),1));
+            previousPosition = position+1;
+        }
+    }
 
-     public PlayedTiles() {
+
+     public PlayedTiles(int prefix, String word) {
        super();
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Load .mncd file");
-        fileChooser.getExtensionFilters().add(new ExtensionFilter("MNCD file","*.mncd"));
-       File file = fileChooser.showOpenDialog(scene.getWindow());
-       try {
-       Scanner scanner = new Scanner(file);
-        if (scanner.nextLine() == "MNCD\n") { 
-            System.out.println("Error: not proper .mncd file.");
+       if (prefix == 1) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Load .mncd file");
+            fileChooser.getExtensionFilters().add(new ExtensionFilter("MNCD file","*.mncd"));
+        File file = fileChooser.showOpenDialog(scene.getWindow());
+        try {
+        Scanner scanner = new Scanner(file);
+            if (scanner.next().hashCode() != "#MNCD".hashCode()) { 
+                System.out.println("Error: not proper .mncd file.");
+                scanner.close();
+                return;
+            }
+            String s = scanner.next();
             scanner.close();
+            makeCrossword(s);
+        }
+        catch(IOException e) {
+            System.out.println("file deleted.");
+        }  
+    } else if (prefix == 2) {
+        if (word.substring(0,word.indexOf(' ')).hashCode() != "#MNCD".hashCode()) { 
+            System.out.println("Error: not proper .mncd file.");
             return;
         }
-
-       for (int i = 0; i < 5; i++) {
-           correctCrossword.add(scanner.nextLine());
-           if (correctCrossword.get(i).length() != 5) {
-            System.out.println("Error: not proper .mncd file.");
-               scanner.close();
-               return;
-           }
-       }
-
-       for (int i = 0; i < 10; i++) {
-           CrosswordClues.add(scanner.nextLine());
-       }
-       scanner.close();
+        makeCrossword(word.substring(word.indexOf(' ')+1));
     }
-   catch(IOException e) {
-    System.out.println("file deleted.");
- }  
 
         for (int r = 0; r < 5; r++) {
             for (int c  = 0; c < 5; c++) {
@@ -82,7 +99,7 @@ public class PlayedTiles extends Tiles {
         for (int i = 0; i < 5; i++) {
 
             Label label = new Label(CrosswordClues.get(i));
-            label.setLayoutX(650);
+            label.setLayoutX(800);
            label.setLayoutY(-20+i*50);
            label.setPrefSize(200, 200);
            label.setFont(Font.font("Times New Roman", 15));
@@ -93,7 +110,7 @@ public class PlayedTiles extends Tiles {
         }
         for (int i = 0; i < 5; i++) { // I had to make a seperate label for the hitboxes becuase the original label's hitboxes were acting weird
             Label hitboxLabel = new Label("");
-            hitboxLabel.setLayoutX(650);
+            hitboxLabel.setLayoutX(800);
             hitboxLabel.setLayoutY(70+i*50);
             hitboxLabel.setPrefWidth(200);
             hitboxLabel.setPrefHeight(10);
@@ -121,7 +138,7 @@ public class PlayedTiles extends Tiles {
 
         for (int i = 0; i < 5; i++) {
             Label label = new Label(CrosswordClues.get(i+5));
-            label.setLayoutX(650);
+            label.setLayoutX(800);
            label.setLayoutY(290+i*50);
            label.setPrefSize(200, 200);
            label.setFont(Font.font("Times New Roman", 15));
@@ -132,7 +149,7 @@ public class PlayedTiles extends Tiles {
 
         for (int i = 0; i < 5; i++){
             Label hitboxLabel = new Label("");
-            hitboxLabel.setLayoutX(650);
+            hitboxLabel.setLayoutX(800);
             hitboxLabel.setLayoutY(380+i*50);
             hitboxLabel.setPrefWidth(200);
             hitboxLabel.setPrefHeight(10);
@@ -157,7 +174,7 @@ public class PlayedTiles extends Tiles {
              anchorPane.getChildren().add(hitboxLabel);
         }
 
-                timerLabel.setLayoutX(350);
+                timerLabel.setLayoutX(450);
        timerLabel.setLayoutY(-50);
         timerLabel.setPrefSize(200, 200);
         timerLabel.setTextFill(Color.RED);
@@ -166,7 +183,12 @@ public class PlayedTiles extends Tiles {
      scene.setOnKeyPressed( e-> {
          if (!paused) {
         currentTile.currentValue = keyCodeToCharacter(e.getCode());
-        switchTile();
+        if (currentTile.currentValue != ' ' ) {
+            switchTile();
+        } else {
+            Label label = (Label)(currentTile.stackPane.getChildren().get(1));
+            label.setText(" ");
+        }
         IsCorrectBoard();
          }
      });
@@ -178,37 +200,37 @@ public class PlayedTiles extends Tiles {
             if (currentTile != null) {
                 hintAmount++;
             if (RoworColumn) { // if yes fill out the row, if not fill out the column
-                while (!list.get(firstTile).get(currentTile.column).writeable) { // increments the firstile until it lands on a writable tile, same for column
+                while (!list.get(firstTile).get(currentTile.row).writeable) { // increments the firstile until it lands on a writable tile, same for column
                     firstTile++;
                 }
-                currentTile = list.get(firstTile).get(currentTile.column);
-                while (list.get(currentTile.row+1).get(currentTile.column).writeable && currentTile.row < 3 ) { // waits until it the next tile is not writable or the row is 3
-                    currentTile.currentValue = correctCrossword.get(currentTile.column).charAt(currentTile.row);
+                currentTile = list.get(firstTile).get(currentTile.row);
+                while (list.get(currentTile.column+1).get(currentTile.row).writeable && currentTile.column < 3 ) { // waits until it the next tile is not writable or the row is 3
+                    currentTile.currentValue = correctCrossword.get(currentTile.row).charAt(currentTile.column);
                     switchTile();
                 }
-                if (currentTile.row == 3 && list.get(currentTile.row).get(currentTile.column).writeable) { 
-                    currentTile.currentValue = correctCrossword.get(currentTile.column).charAt(currentTile.row);
+                if (currentTile.column == 3 && list.get(currentTile.column).get(currentTile.row).writeable) { 
+                    currentTile.currentValue = correctCrossword.get(currentTile.row).charAt(currentTile.column);
                     switchTile();
-                    if (currentTile.row == 4 && list.get(currentTile.row).get(currentTile.column).writeable) {
-                    currentTile.currentValue = correctCrossword.get(currentTile.column).charAt(currentTile.row);
+                    if (currentTile.column == 4 && list.get(currentTile.column).get(currentTile.row).writeable) {
+                    currentTile.currentValue = correctCrossword.get(currentTile.row).charAt(currentTile.column);
                     switchTile();
                     }
                 }
             }  else {
-                while (!list.get(currentTile.row).get(firstTile).writeable) {
+                while (!list.get(currentTile.column).get(firstTile).writeable) {
                     firstTile++;
                 }
 
-                currentTile = list.get(currentTile.row).get(firstTile);
-                while (list.get(currentTile.column+1).get(currentTile.row).writeable && currentTile.column< 3) {
-                    currentTile.currentValue = correctCrossword.get(currentTile.column).charAt(currentTile.row);
+                currentTile = list.get(currentTile.column).get(firstTile);
+                while (list.get(currentTile.row+1).get(currentTile.column).writeable && currentTile.row< 3) {
+                    currentTile.currentValue = correctCrossword.get(currentTile.row).charAt(currentTile.column);
                     switchTile();
                 }
-                if (currentTile.column == 3 && list.get(currentTile.row).get(currentTile.column).writeable) {
-                    currentTile.currentValue = correctCrossword.get(currentTile.column).charAt(currentTile.row);
+                if (currentTile.row == 3 && list.get(currentTile.column).get(currentTile.row).writeable) {
+                    currentTile.currentValue = correctCrossword.get(currentTile.row).charAt(currentTile.column);
                     switchTile();
-                    if (currentTile.column == 4 && list.get(currentTile.row).get(currentTile.column).writeable) {
-                    currentTile.currentValue = correctCrossword.get(currentTile.column).charAt(currentTile.row);
+                    if (currentTile.row == 4 && list.get(currentTile.column).get(currentTile.row).writeable) {
+                    currentTile.currentValue = correctCrossword.get(currentTile.row).charAt(currentTile.column);
                     switchTile();
                     }
             } 
