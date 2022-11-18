@@ -4,20 +4,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="245.0" layoutY="14.0" text="Info">
+      <Label layoutX="242.0" text="Info">
          <font>
             <Font size="58.0" />
          </font>
       </Label>
-      <Label alignment="TOP_LEFT" layoutX="33.0" layoutY="85.0" prefHeight="184.0" prefWidth="527.0" text="GenCross is a an application that allows players to make, play, and share mini crosswords. The mini crossword was invented in 2014 by the New York Times." wrapText="true">
+      <Label alignment="TOP_LEFT" layoutX="33.0" layoutY="71.0" prefHeight="184.0" prefWidth="527.0" text="GenCross is an application that allows players to make, play, and share mini crosswords. The mini crossword was invented in 2014 by the New York Times." wrapText="true">
          <font>
             <Font size="28.0" />
          </font>
       </Label>
-      <Label layoutX="33.0" layoutY="277.0" text="Copyright Shiftzel. All rights reserved">
+      <Label layoutX="27.0" layoutY="255.0" text="Copyright Shiftzel. All rights reserved.">
          <font>
             <Font size="28.0" />
          </font>
