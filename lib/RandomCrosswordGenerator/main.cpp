@@ -124,7 +124,7 @@ void make_input_crossword(){
 void make_collumn_string(std::string& output){ // filters out all non-black and space characters
     int spaceInTheMiddle = 0;
     for (int i = 0; i < 5; i++) {
-        if (crossword[i][c] ==' ' && crossword[i+1][c]  ) {
+        if ( crossword[i][c] ==' ' && crossword[i+1][c]  ) {
             spaceInTheMiddle++;
             
         }
@@ -311,20 +311,24 @@ int make_row(const std::vector<std::string>& Word_List ) {
                             }
                         }
                     }
-                    if ( (!wordIsFull && crossword[c][0] != '0')  || !useInput ) {
+                    if ( (!wordIsFull && crossword[c][r] != '0')  || !useInput ) {
                                 if (!onlyUserWords) {
                                     findInListPosition = collumn_white_spaces[c][1]-collumn_white_spaces[c][0]-1;
                                 }
                                 if (useInput && collumn_string.find(' ') != -1) {
                                    bool cont = true;
                                    std::string otherWord{""};
-                                   int startIndex = Words_Lists_Begginings_And_Ends[findInListPosition][ (collumn_string[0]-'A')*2 ];
-                                   int endIndex = Words_Lists_Begginings_And_Ends[findInListPosition][ (collumn_string[0]-'A')*2+1 ];
-                                    for (int i = startIndex; i < endIndex; i++) {
+                                   int startIndex = 0 ;
+                                   int endIndex = Words_Lists[findInListPosition].size()-1;
+                                    if (collumn_string[0] != ' ') {
+                                        startIndex = Words_Lists_Begginings_And_Ends[findInListPosition][ (collumn_string[0]-'A')*2 ];
+                                        endIndex = Words_Lists_Begginings_And_Ends[findInListPosition][ (collumn_string[0]-'A')*2+1 ];
+                                    }
+                                    for (int i = startIndex; i < endIndex+1; i++) {
                                        cont = true;
                                         otherWord = Words_Lists[findInListPosition][i];
                                         
-                                        for (int a = 1; a < otherWord.length(); a++) {
+                                        for (int a = 0; a < collumn_string.length(); a++) {
                                             if (collumn_string[a] != ' ' && otherWord[a] != collumn_string[a]) {
                                                 cont = false;
                                                 break;
