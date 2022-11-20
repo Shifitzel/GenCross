@@ -27,7 +27,7 @@ int how_many_how_many_how_many_times = 0;
 int row_to_reset_until = 0;
 std::ofstream Outo; 
 std::ifstream Into; 
-std::vector<std::string> user_crossword_clues{""};
+std::vector<std::string> user_crossword_clues;
 std::string relativePath;
 
 
@@ -51,15 +51,15 @@ void add_user_words(){
         Into.open(relativePath+"\\otherWords.txt");
     }
     std::string words{""};
-    while (Into >> words) {
-        if (words.find(' ') != -1) {
+    while (std::getline(Into,words)) {
+        if (words != "") {
             Words_Lists[0].push_back(words.substr(0,words.find('@')));
             user_crossword_clues.push_back(words.substr(words.find('@')+1));
         }
     }
     for (int i = 0; i < Words_Lists[0].size(); i++) {
         words = Words_Lists[0][i];
-        int index = find_in_list(Words_Lists[words.length()-2], words,Words_Lists_Begginings_And_Ends[words.length()-2][(words[0]-'A')*2],Words_Lists_Begginings_And_Ends[words.length()-2][(words[0]-'A')*2+1] );
+        int index = find_in_list(Words_Lists[words.length()-2], words);
         if (index == -1) {
          Words_Lists[words.length()-2].insert(std::upper_bound(Words_Lists[words.length()-2].begin(),Words_Lists[words.length()-2].end(),words),words);
         } else {
@@ -498,7 +498,7 @@ void export_crossword(){
             index = -1;
         }
         
-        if (index % 2 == 0) {  // no need to check if it equals -1 
+        if (index != -1) { 
             Outo << user_crossword_clues[index] << std::endl;
         } else{
             Outo << "" << std::endl;
@@ -512,7 +512,7 @@ void export_crossword(){
         } else {
             index = -1;
         }
-        if (index % 2 == 0) {
+        if (index != -1) {
             Outo << user_crossword_clues[index] << std::endl;
         } else{
             Outo << "" << std::endl;
