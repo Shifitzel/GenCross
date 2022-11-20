@@ -111,7 +111,9 @@ public class TileMaker extends Tiles {
                 for (int i = 0; i < 10; i++) {
                     clues.set(i, scanner.nextLine());
                     TextField textField = (TextField)(anchorPane.getChildren().get(anchorPane.getChildren().size()-17+i));
+                    if (clues.get(i).hashCode() != "".hashCode()) {
                     textField.setText(clues.get(i));
+                    }
                 }
                 scanner.close();
             } 
