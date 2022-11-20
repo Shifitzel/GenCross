@@ -68,9 +68,6 @@ void add_user_words(){
     }
 
     for (int a = 0; a < 4; a++) {
-        if (Words_Lists[a].size() < 2) {
-            a++;
-        }
         char startingCharacter = 'A';
         bool found = false;
         while (  Words_Lists[a][0][0]-startingCharacter != 0) {
