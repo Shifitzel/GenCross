@@ -204,39 +204,33 @@ public class PlayedTiles extends Tiles {
                     firstTile++;
                 }
                 currentTile = list.get(firstTile).get(currentTile.row);
-                while (list.get(currentTile.column+1).get(currentTile.row).writeable && currentTile.column < 3 ) { // waits until it the next tile is not writable or the row is 3
+                while (currentTile.column != 4 && list.get(currentTile.column+1).get(currentTile.row).writeable) {
                     currentTile.currentValue = correctCrossword.get(currentTile.row).charAt(currentTile.column);
+                    switchTile(); 
+                }
+                if (list.get(currentTile.column).get(currentTile.row).writeable) {
+                  currentTile.currentValue = correctCrossword.get(currentTile.row).charAt(currentTile.column);
                     switchTile();
                 }
-                if (currentTile.column == 3 && list.get(currentTile.column).get(currentTile.row).writeable) { 
-                    currentTile.currentValue = correctCrossword.get(currentTile.row).charAt(currentTile.column);
-                    switchTile();
-                    if (currentTile.column == 4 && list.get(currentTile.column).get(currentTile.row).writeable) {
-                    currentTile.currentValue = correctCrossword.get(currentTile.row).charAt(currentTile.column);
-                    switchTile();
-                    }
-                }
+
+
             }  else {
                 while (!list.get(currentTile.column).get(firstTile).writeable) {
                     firstTile++;
                 }
-
                 currentTile = list.get(currentTile.column).get(firstTile);
-                while (list.get(currentTile.row+1).get(currentTile.column).writeable && currentTile.row< 3) {
+                while (currentTile.row != 4 && list.get(currentTile.column).get(currentTile.row+1).writeable ) {
                     currentTile.currentValue = correctCrossword.get(currentTile.row).charAt(currentTile.column);
                     switchTile();
-                }
-                if (currentTile.row == 3 && list.get(currentTile.column).get(currentTile.row).writeable) {
-                    currentTile.currentValue = correctCrossword.get(currentTile.row).charAt(currentTile.column);
-                    switchTile();
-                    if (currentTile.row == 4 && list.get(currentTile.column).get(currentTile.row).writeable) {
-                    currentTile.currentValue = correctCrossword.get(currentTile.row).charAt(currentTile.column);
-                    switchTile();
-                    }
+             }
+             if (list.get(currentTile.column).get(currentTile.row).writeable) {
+                currentTile.currentValue = correctCrossword.get(currentTile.row).charAt(currentTile.column);
+                switchTile();
+             }
             } 
          } 
          IsCorrectBoard();
-            }
+        
         });
         anchorPane.getChildren().add(hintButton);
 
