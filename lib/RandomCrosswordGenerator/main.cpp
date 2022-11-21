@@ -144,6 +144,7 @@ void make_third_collumn() {
     std::string otherWord{""};
     std::string word{""};
     std::string rowWord{""};
+    std::string rowString{""};
      int Size = Words_Lists[3].size();
     if (onlyUserWords) {
         Size = Words_Lists[0].size();
@@ -181,9 +182,12 @@ void make_third_collumn() {
         for (int i = 0; i < 5; i++) {
 
         if (crossword[i].find(' ') != -1 && !useInput ) {        
-                rowWord = crossword[i];
-                rowWord[2] = word[i];
-            rowWord = rowWord.substr(rows_white_spaces[i][0]-'0',rows_white_spaces[i][1]-'0' );
+                rowString = crossword[i];
+                rowString[2] = word[i];
+                rowWord.clear();
+            for (int a = rows_white_spaces[i][0]-'0'; a < rows_white_spaces[i][1]-'0'+1; a++) {
+                rowWord.push_back(rowString[a]);
+            }
                 if (!onlyUserWords) {
                     findInListPosition = rowWord.size()-2;
                 }
