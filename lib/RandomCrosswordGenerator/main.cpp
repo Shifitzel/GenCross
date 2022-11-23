@@ -345,7 +345,7 @@ int make_row(const std::vector<std::string>& Word_List ) {
                                         return 0;
                                     }
                                 } 
-                                else if(find_in_list( Words_Lists[findInListPosition] ,collumn_string, Words_Lists_Begginings_And_Ends[findInListPosition][ (collumn_string[0]-'A')*2 ],Words_Lists_Begginings_And_Ends[findInListPosition][ (collumn_string[0]-'A')*2 +1])  == -1) {
+                                else if(collumn_string != "" && find_in_list( Words_Lists[findInListPosition] ,collumn_string, Words_Lists_Begginings_And_Ends[findInListPosition][ (collumn_string[0]-'A')*2 ],Words_Lists_Begginings_And_Ends[findInListPosition][ (collumn_string[0]-'A')*2 +1])  == -1) {
                                 r -= 1;
                                     should_redo_row();
                                     return 0;
@@ -491,10 +491,17 @@ void export_crossword(){
 
     writeList(crossword);
     int index = 0;
+    std::string word{""};
     for (int i = 0; i < 5; i++) {
- 
+        word.clear();
+        for (int a = 0; a < 5; a++) {
+            if (crossword[i][a] != '0') {
+                word.push_back(crossword[i][a]);
+            }
+        }
+
         if (Words_Lists_Begginings_And_Ends[0].size() != 0) {
-            index = find_in_list(Words_Lists[0],crossword[i],Words_Lists_Begginings_And_Ends[0][(crossword[i][0]-'A')*2],Words_Lists_Begginings_And_Ends[0][(crossword[i][0]-'A')*2+1]);
+            index = find_in_list(Words_Lists[0],word,Words_Lists_Begginings_And_Ends[0][(word[0]-'A')*2],Words_Lists_Begginings_And_Ends[0][(word[0]-'A')*2+1]);
         } else {
             index = -1;
         }
@@ -505,7 +512,7 @@ void export_crossword(){
             Outo << "" << std::endl;
         }
     }
-    std::string word{""};
+    word.clear();
     for (c = 0; c < 5; c++) {
         make_collumn_string(word);
         if (Words_Lists_Begginings_And_Ends[0].size() != 0) {
