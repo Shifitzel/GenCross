@@ -25,6 +25,8 @@ import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class AddWords{
+
+
    private AnchorPane anchorPane = new AnchorPane();
    private TreeSet<String> words = new TreeSet<String>();
     public Scene scene = new Scene(anchorPane,600,800);
@@ -38,20 +40,40 @@ public class AddWords{
     private Line vLine = new Line(0, 0, 0, 500000);
 
 
+    private void scroll(ObservableValue<? extends Number> ov,
+    Number old_val, Number new_val) {
+        double vBoxY = vBox.getLayoutY();
+        for (int i = 0; i < anchorPane.getChildren().size(); i++) {
+            if (anchorPane.getChildren().get(i) != scrollBar ){
+                if (i != 0 ) {
+                   double LayoutY = anchorPane.getChildren().get(i).getLayoutY();
+            anchorPane.getChildren().get(i).setLayoutY(-new_val.doubleValue()+LayoutY-vBoxY);
+                } else {
+                    anchorPane.getChildren().get(i).setLayoutY(-new_val.doubleValue());
+                }
+        }
+    }
+    }
+
+
+
+
     private void addWordToDisplay(String word){
         HBox hBox = new HBox();
 
         Label label = new Label(word.substring(0,word.indexOf('@')));
         Label clueLabel = new Label(word.substring(word.indexOf('@')+1));
-        clueLabel.setPrefWidth(300);
+        clueLabel.setPrefWidth(200);
         clueLabel.setWrapText(true);
 
         label.setOnMouseEntered(e->{
             timer.cancel();
             label.setTextFill(Color.BLUE);
             selectedWord = label.getText() + "@" + clueLabel.getText();
+            wordsTextField.setText(label.getText());
+            cluesTextField.setText(clueLabel.getText());
             deleteButton.setLayoutX(250);
-            deleteButton.setLayoutY( vBox.getChildren().indexOf(hBox) *36+vBox.getLayoutY());
+            deleteButton.setLayoutY( hBox.localToScene(0,0).getY() );
             deleteButton.setVisible(true);
             
         });
@@ -67,7 +89,7 @@ public class AddWords{
         });
 
         hBox.getChildren().add(label);
-        hBox.setSpacing(127-label.getText().length()); 
+        hBox.setSpacing(127-label.getText().length()*9); 
 
         clueLabel.setTextFill(Color.BLACK);
         hBox.getChildren().add(clueLabel);
@@ -147,21 +169,12 @@ public class AddWords{
             scrollBar.valueProperty().addListener(new ChangeListener<Number>() {
                 public void changed(ObservableValue<? extends Number> ov,
                     Number old_val, Number new_val) {
-                        double vBoxY = vBox.getLayoutY();
-                        for (int i = 0; i < anchorPane.getChildren().size(); i++) {
-                            if (anchorPane.getChildren().get(i) != scrollBar ){
-                                if (i != 0 ) {
-                                   double LayoutY = anchorPane.getChildren().get(i).getLayoutY();
-                            anchorPane.getChildren().get(i).setLayoutY(-new_val.doubleValue()+LayoutY-vBoxY);
-                                } else {
-                                    anchorPane.getChildren().get(i).setLayoutY(-new_val.doubleValue());
-                                }
-                        }
-                    }
+                        scroll(ov,old_val,new_val);
                 }
             });
     
             anchorPane.getChildren().add(scrollBar);
+
 
             deleteButton.setVisible(false);
             deleteButton.setOnAction(e->{
@@ -178,8 +191,15 @@ public class AddWords{
 
             wordsTextField.setLayoutY(15);
             wordsTextField.setLayoutX(25);
+            wordsTextField.setOnAction(e->{
+                add(wordsTextField.getText(), cluesTextField.getText());
+            } );
+
             cluesTextField.setLayoutY(85);
             cluesTextField.setLayoutX(25);
+            cluesTextField.setOnAction(e->{
+                add(wordsTextField.getText(), cluesTextField.getText());
+            } );
 
             anchorPane.getChildren().add(wordsTextField);
             anchorPane.getChildren().add(cluesTextField);
@@ -287,6 +307,12 @@ public class AddWords{
         line2.setLayoutX(0);
         line2.setLayoutY(125);
         anchorPane.getChildren().add(line2);
+
+        scrollBar.setUnitIncrement(10);     
+        scene.setOnScroll(e->{
+            scrollBar.unitIncrementProperty().set(e.getDeltaY());
+            scrollBar.increment();
+    });
 
     }
 
