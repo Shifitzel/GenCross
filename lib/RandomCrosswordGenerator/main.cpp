@@ -37,7 +37,7 @@ template <typename T>
 void writeList(T &List) {  
     int Size = sizeof(List)/sizeof(List[0]);
     for (int i = 0; i < Size; i++) {
-       Outo << List[i] << std::endl;
+       Outo << List[i] << "\n";
     } 
 
 }
@@ -90,6 +90,13 @@ void add_user_words(){
             }
         }
         Words_Lists_Begginings_And_Ends[a].push_back(Words_Lists[a].size()-1);
+        while (  'Z'-startingCharacter != 0) {
+                    Words_Lists_Begginings_And_Ends[a].push_back(-1);
+                    Words_Lists_Begginings_And_Ends[a].push_back(-1);
+                    startingCharacter++;
+                }
+        
+
     }
 
 
@@ -121,11 +128,11 @@ void make_input_crossword(){
 void make_collumn_string(std::string& output){ // filters out all non-black and space characters
     int spaceInTheMiddle = 0;
     for (int i = 0; i < 5; i++) {
-        if ( crossword[i][c] ==' ' && crossword[i+1][c]  ) {
+        if ( crossword[i][c] == ' ' && (i == 4 || crossword[i+1][c] == ' ' )) {
             spaceInTheMiddle++;
             
         }
-        else if (crossword[i][c] != '0') {
+        else if ( crossword[i][c] != '0' && (i == 4 || crossword[i][c] != ' ' ||  crossword[i+1][c] != '0' ) ) {
             for (int i = 0; i < spaceInTheMiddle; i++) {
                 output.push_back(' ');
             }
@@ -133,7 +140,6 @@ void make_collumn_string(std::string& output){ // filters out all non-black and 
             output.push_back(crossword[i][c]);
         }
     }
-
 
 }
 
@@ -505,11 +511,12 @@ void export_crossword(){
         } else {
             index = -1;
         }
+
         
         if (index != -1) { 
-            Outo << user_crossword_clues[index] << std::endl;
+            Outo << user_crossword_clues[index] << "\n";
         } else{
-            Outo << "" << std::endl;
+            Outo << "\n" ;
         }
     }
     word.clear();
@@ -521,9 +528,9 @@ void export_crossword(){
             index = -1;
         }
         if (index != -1) {
-            Outo << user_crossword_clues[index] << std::endl;
+            Outo << user_crossword_clues[index] << "\n";
         } else{
-            Outo << "" << std::endl;
+            Outo << "\n";
         }
         word.clear();
     }
@@ -531,6 +538,7 @@ void export_crossword(){
 
 
 int main() {
+    srand(time(NULL)); // sets the random number generator to output number every time
     std::cin >> relativePath;
     if (Os == "Linux") {
         relativePath =  relativePath + "/lib/RandomCrosswordGenerator";
@@ -539,7 +547,6 @@ int main() {
         relativePath = relativePath + + "\\lib\\RandomCrosswordGenerator";
         Outo.open(relativePath+"\\minicrossword.txt") ;
     }
-    srand(time(NULL)); // sets the random number generator to output number every time
     make_word_lists();
     add_user_words();
     make_input_crossword();
@@ -570,7 +577,9 @@ int main() {
     } 
     export_crossword(); 
 
+
     Into.close();
     Outo.close();
+
     return 0;
 }
