@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -191,15 +192,17 @@ public class AddWords{
 
             wordsTextField.setLayoutY(15);
             wordsTextField.setLayoutX(25);
-            wordsTextField.setOnAction(e->{
-                add(wordsTextField.getText(), cluesTextField.getText());
+            wordsTextField.setOnKeyPressed(e->{
+                if (e.getCode() == KeyCode.ENTER)
+                add(wordsTextField.getText().toUpperCase(), cluesTextField.getText());
             } );
 
             cluesTextField.setLayoutY(85);
             cluesTextField.setLayoutX(25);
-            cluesTextField.setOnAction(e->{
-                add(wordsTextField.getText(), cluesTextField.getText());
-            } );
+            cluesTextField.setOnKeyPressed(e->{
+                if (e.getCode() == KeyCode.ENTER) {
+                add(wordsTextField.getText().toUpperCase(), cluesTextField.getText());
+            }} );
 
             anchorPane.getChildren().add(wordsTextField);
             anchorPane.getChildren().add(cluesTextField);
