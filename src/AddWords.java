@@ -148,7 +148,7 @@ public class AddWords{
         vBox.setLayoutY(150);
         vBox.setLayoutX(200);
         vBox.setSpacing(20);
-        anchorPane.setStyle("-fx-background-color: brown");   
+        anchorPane.setStyle("-fx-background-color: CF4242");   
         anchorPane.getChildren().add(vBox); 
  
         try {
@@ -186,7 +186,7 @@ public class AddWords{
               Label addWords = new Label("Add Words");
             addWords.setScaleX(2);
             addWords.setScaleY(2);
-            addWords.setLayoutX(250);
+            addWords.setLayoutX(275);
             addWords.setLayoutY(50);
             anchorPane.getChildren().add(addWords);
 
@@ -246,7 +246,7 @@ public class AddWords{
             anchorPane.getChildren().add(saveAndExitButton);
 
             Button saveToFileButton = new Button("Save to File      ");
-            saveToFileButton.setLayoutY(25);
+            saveToFileButton.setLayoutY(15);
             saveToFileButton.setLayoutX(450);
             saveToFileButton.setOnAction(e->{
                 
@@ -275,7 +275,7 @@ public class AddWords{
         }
 
         Button loadWordsButton = new Button("Load .words file");
-        loadWordsButton.setLayoutY(75);
+        loadWordsButton.setLayoutY(85);
         loadWordsButton.setLayoutX(450);
         loadWordsButton.setOnAction(e->{
             try{
@@ -317,6 +317,9 @@ public class AddWords{
             scrollBar.increment();
     });
 
+    scene.getStylesheets().add("file:lib/StyleSheets/tilesStyle.css");
+
+    
     }
 
 }

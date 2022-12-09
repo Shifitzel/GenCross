@@ -24,12 +24,13 @@ public class Tiles {
     protected ArrayList<String> CrosswordClues = new ArrayList<String>(); 
     protected ArrayList<String> correctCrossword = new ArrayList<String>(); 
     protected AnchorPane anchorPane = new AnchorPane();
+    protected ArrayList<Label> signs = new ArrayList<Label>();
 
      public Tiles() {
                  
 
          anchorPane.setPrefSize(1120,630);
-         anchorPane.setStyle("-fx-background-color: brown");   
+         anchorPane.setStyle("-fx-background-color: CF4242");   
          Label acrossLabel = new Label("Horizantal");
          
         acrossLabel.setLayoutX(825);
@@ -41,7 +42,7 @@ public class Tiles {
 
 
          for (int i = 0; i <5; i++){
-            Label numberLabel = new Label(String.valueOf(i+1)+'.');
+            Label numberLabel = new Label(String.valueOf( (char)('A'+i) )+'.');
             numberLabel.setLayoutX(750);
             numberLabel.setLayoutY(-20+i*50);
             numberLabel.setPrefSize(200, 200);
@@ -81,12 +82,35 @@ public class Tiles {
             }            
             list.add(temp);
         }
-        
-        scene = new Scene(anchorPane);
 
- 
+        for (int i = 0; i <= 9; i++) {
+            Label label = new Label();
+            label.setScaleX(1);
+            label.setScaleY(1);
+            label.setTextFill(Color.WHITE);
+
+            if (i < 5) {
+                label.setText(String.valueOf((char)( 'A'+i)));
+            } else {
+                label.setText(String.valueOf(i-4));
+            }    
+                signs.add(label);
+            
+            anchorPane.getChildren().add(label);
+        }
+        
+        setSigns();
+
+
+        scene = new Scene(anchorPane);
+        scene.getStylesheets().add("file:lib/StyleSheets/tilesStyle.css");
+        
+
+        
 
     }    
+
+
     
     public String decodeString(String s, int addition) {
         StringBuilder stringBuilder = new StringBuilder(s);
@@ -183,6 +207,47 @@ public class Tiles {
                 return '0';         
          
      }
+
+     protected void setSigns() {
+        for (int i = 0;  i < 10; i++) {
+            if (i > 4) {
+                addLetterToColumn(i-5);
+            } else {
+                addNumberToRow(i);
+            }
+            
+        }
+     }
+
+     protected void addNumberToRow(int r) {
+        for (int i = 0; i < 5; i++) {
+            if (list.get(i).get(r).writeable) {
+                signs.get(r).setLayoutX(i*100+205);
+                signs.get(r).setLayoutY(r*100+100);
+                for (int a = 5; a < 10; a++) {
+                    if (signs.get(a).getLayoutX() == signs.get(r).getLayoutX() && signs.get(a).getLayoutY() == signs.get(r).getLayoutY()) {
+                        signs.get(a).setLayoutX(signs.get(a).getLayoutX()+10);
+                    }
+                }
+                return;    
+            }
+        }
+     }
+     protected void addLetterToColumn(int c) {
+        for (int i = 0; i < 5; i++) {
+            if (list.get(c).get(i).writeable) {
+                signs.get(c+5).setLayoutX(c*100+205);
+                signs.get(c+5).setLayoutY(i*100+100);
+                for (int a = 0; a < 5; a++) {
+                    if (signs.get(a).getLayoutX() == signs.get(c+5).getLayoutX() && signs.get(a).getLayoutY() == signs.get(c+5).getLayoutY()) {
+                        signs.get(c+5).setLayoutX(signs.get(c+5).getLayoutX()+10);
+                    }
+                }
+                return;    
+            }
+        }
+     }
+
 
      protected void switchTile() {
          if (currentTile.currentValue == null) {
@@ -331,6 +396,8 @@ public class Tiles {
                 selectTile(true,0);
            }); 
             Label label = new Label();
+            label.setScaleX(3);
+            label.setScaleY(3);
             label.setTextFill(Color.WHITE);
             stackPane.getChildren().addAll(rect, label);
 

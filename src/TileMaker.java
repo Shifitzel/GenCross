@@ -38,6 +38,10 @@ public class TileMaker extends Tiles {
     private CheckBox ignoreCrossword = new CheckBox("Ignore Crossword");
     private CheckBox onlyUserWords = new CheckBox("Only User Words");
     private ImageView loadingScene = new ImageView(); 
+    private int textFieldStartNumber = 0;
+    private Button endProcess = new Button("End Process");
+    private  Label copyIndicator = new Label("Copied");
+
 
 
     public void makeCrossword(String s) {
@@ -110,14 +114,14 @@ public class TileMaker extends Tiles {
                 
                 for (int i = 0; i < 10; i++) {
                     clues.set(i, scanner.nextLine());
-                    TextField textField = (TextField)(anchorPane.getChildren().get(anchorPane.getChildren().size()-17+i));
+                    TextField textField = (TextField)(anchorPane.getChildren().get(textFieldStartNumber+i));
                     if (clues.get(i).hashCode() != "".hashCode()) {
                     textField.setText(clues.get(i));
                     }
                 }
                 scanner.close();
-            } 
-                catch (FileNotFoundException e) {
+                setSigns();
+            } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }  
                 showLoadingScreen(false,false, null);
@@ -139,8 +143,8 @@ public class TileMaker extends Tiles {
             }  
         }
 
-        anchorPane.getChildren().get(anchorPane.getChildren().size()-18).setVisible(showButton);
-        anchorPane.getChildren().get(anchorPane.getChildren().size()-18).setDisable(!showButton);
+        endProcess.setVisible(showButton);
+        endProcess.setDisable(!showButton);
         
     } 
 
@@ -301,6 +305,8 @@ public class TileMaker extends Tiles {
     }
 
         Button generateCrosswordWordsButton = new Button("Generate Mini Crossword");
+
+
         generateCrosswordWordsButton.setTextFill(Color.BROWN);
         generateCrosswordWordsButton.setLayoutX(300);
         generateCrosswordWordsButton.setLayoutY(20);
@@ -344,7 +350,6 @@ public class TileMaker extends Tiles {
         e.printStackTrace();
        }
 
-       Button endProcess = new Button("End Process");
        endProcess.setLayoutX(400);
        endProcess.setLayoutY(350);
        endProcess.setOnAction(e->{
@@ -357,6 +362,7 @@ public class TileMaker extends Tiles {
        anchorPane.getChildren().add(endProcess); 
         
 
+       textFieldStartNumber = anchorPane.getChildren().size();
     for (int i = 0; i < 5; i++) {
         TextField textField = new TextField();
         if (clues.size() > i) {
@@ -423,6 +429,8 @@ public class TileMaker extends Tiles {
                 } else {
                     currentTile.setWritable(true);
                 }
+                addLetterToColumn(currentTile.column);
+                addNumberToRow(currentTile.row);
             } else {
 
             // For the ones in the corners it checks if there is enough room to put a words that is at least three letter on both sides
@@ -463,6 +471,8 @@ public class TileMaker extends Tiles {
             else if (currentTile.column ==3 && currentTile.row == 4  && list.get(0).get(4).writeable && !list.get(4).get(4).writeable) {
                 currentTile.setWritable(false);
             } 
+            addLetterToColumn(currentTile.column);
+            addNumberToRow(currentTile.row);
             switchTile();
         } 
       }  else {
@@ -479,6 +489,7 @@ public class TileMaker extends Tiles {
     });
 
     Button clearButton = new Button("Clear");
+    clearButton.setShape(new Rectangle(50,50));   
     clearButton.setLayoutX(20);
     clearButton.setLayoutY(50);
     clearButton.setOnAction(e-> {
@@ -487,6 +498,7 @@ public class TileMaker extends Tiles {
                 list.get(r).get(c).setWritable(true);
             }
         }
+        setSigns();
     });
 
     anchorPane.getChildren().add(clearButton);
@@ -570,11 +582,11 @@ public class TileMaker extends Tiles {
         }
         clipboardcontent.putString(stringBuilder.toString());
         clipboard.setContent(clipboardcontent); 
-        anchorPane.getChildren().get(anchorPane.getChildren().size()-1).setVisible(true);
+        copyIndicator.setVisible(true);
         timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
-                anchorPane.getChildren().get(anchorPane.getChildren().size()-1).setVisible(false);
+                copyIndicator.setVisible(false);
             }
         }, 500);
     
@@ -582,7 +594,6 @@ public class TileMaker extends Tiles {
 
     anchorPane.getChildren().add(copyButton);
 
-    Label copyIndicator = new Label("Copied");
     copyIndicator.setLayoutX(80);
      copyIndicator.setLayoutY(85);
      copyIndicator.setVisible(false);

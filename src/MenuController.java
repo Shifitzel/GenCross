@@ -1,12 +1,12 @@
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.awt.Desktop;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 
@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 public class MenuController {
     
     public static Stage menuControllerstage = new Stage();
+
+    @FXML
+    private ImageView logo;
 
     @FXML
     private TextField textField;
@@ -49,17 +52,7 @@ public class MenuController {
 
     }
 
-    @FXML
-    public void sendToForm() {
-        try {
-        Desktop.getDesktop().browse(new URI("https://forms.gle/GsWT9pu6ncixyqbQ8")); }
-        catch (IOException e) {
-            e.printStackTrace();
-        }  
-        catch (URISyntaxException f) {
-            f.printStackTrace();
-        }    
-    }
+
 
     @FXML
     public void onEnterCrosswordPressed(){
@@ -80,7 +73,19 @@ public class MenuController {
             catch (IOException e) {e.printStackTrace();}
     
         }
+ 
 
+    @FXML
+    public void initialize() {
+        logo.getParent().setStyle("-fx-background-color: b5651e");   
+        try {
+        logo.setImage(new Image(new FileInputStream("lib/Images/logo.png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //getStylesheets().add("file:lib/StyleSheets/tilesStyle.css");
+
+    }
 
 
 }

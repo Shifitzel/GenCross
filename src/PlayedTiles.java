@@ -24,6 +24,7 @@ public class PlayedTiles extends Tiles {
     public static int hintAmount = 0;
     private int previosTime = 0;
     private boolean gameOver = false;
+    private int hintLabelIndex = 0;
 
     protected AnimationTimer animationTimer = new AnimationTimer() { // gets the current time and update the label
         @Override
@@ -95,6 +96,10 @@ public class PlayedTiles extends Tiles {
                 }
             }
         } 
+        setSigns();
+
+
+        hintLabelIndex = anchorPane.getChildren().size();
 
         for (int i = 0; i < 5; i++) {
 
@@ -139,6 +144,7 @@ public class PlayedTiles extends Tiles {
         for (int i = 0; i < 5; i++) {
             Label label = new Label(CrosswordClues.get(i+5));
             label.setLayoutX(800);
+            label.setWrapText(true);
            label.setLayoutY(290+i*50);
            label.setPrefSize(200, 200);
            label.setFont(Font.font("Times New Roman", 15));
@@ -174,10 +180,13 @@ public class PlayedTiles extends Tiles {
              anchorPane.getChildren().add(hitboxLabel);
         }
 
-                timerLabel.setLayoutX(450);
-       timerLabel.setLayoutY(-50);
+        timerLabel.setLayoutX(525);
+        timerLabel.setScaleX(2);
+            timerLabel.setScaleY(2);
+       timerLabel.setLayoutY(-40);
+       timerLabel.setDisable(true);
         timerLabel.setPrefSize(200, 200);
-        timerLabel.setTextFill(Color.RED);
+        timerLabel.setTextFill(Color.WHITE);
         anchorPane.getChildren().add(timerLabel);
 
      scene.setOnKeyPressed( e-> {
@@ -244,7 +253,7 @@ public class PlayedTiles extends Tiles {
                 pauseButton.setText("Pause");
                 stopWatch.start();
                 for (int i = 0; i < 20; i++) {
-                    Label label = (Label) anchorPane.getChildren().get(anchorPane.getChildren().size()-4-i);
+                    Label label = (Label) anchorPane.getChildren().get(hintLabelIndex+i);
                     label.setVisible(true);
                 }
             } else  {
@@ -253,7 +262,7 @@ public class PlayedTiles extends Tiles {
             previosTime += stopWatch.getElapsedTimeSecs();
             stopWatch.stop();
                 for (int i = 0; i < 20; i++) {
-                    Label label = (Label) anchorPane.getChildren().get(anchorPane.getChildren().size()-4-i);
+                    Label label = (Label) anchorPane.getChildren().get(hintLabelIndex+i);
                     label.setVisible(false);
                 }
             }    

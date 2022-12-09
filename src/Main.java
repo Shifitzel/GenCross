@@ -9,7 +9,6 @@ import javafx.scene.image.Image;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
-
 public class Main extends Application {
     public static String oS = "Linux";
 

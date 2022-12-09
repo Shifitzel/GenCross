@@ -24,6 +24,7 @@ public class TileMakerContext {
 
     TileMakerContext() {
         anchorPane.setPrefSize(600, 400);
+        anchorPane.setStyle("-fx-background-color: b5651e");   
          Button loadButton = new Button("Load crossword");
         loadButton.setLayoutX(20);
         loadButton.setLayoutY(100);
@@ -38,7 +39,7 @@ public class TileMakerContext {
         anchorPane.getChildren().add(textField);
 
         Button enterButton = new Button("Enter");
-        enterButton.setLayoutX(150);
+        enterButton.setLayoutX(175);
         enterButton.setLayoutY(200);
         enterButton.setOnAction(e->{
             makeTileMaker(2,textField.getText());
@@ -53,6 +54,7 @@ public class TileMakerContext {
             makeTileMaker(0,null);
         }); 
         anchorPane.getChildren().add(newButton); 
+        scene.getStylesheets().add("file:lib/StyleSheets/tilesStyle.css");
 
     } 
 }

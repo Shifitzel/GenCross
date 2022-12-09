@@ -23,6 +23,7 @@ public class youwonController {
 
     @FXML
     public void initialize() {
+        secondsLabel.getParent().setStyle("-fx-background-color: b5651e");   
         secondsLabel.setText(String.valueOf(PlayedTiles.stopWatch.getElapsedTimeSecs()));
        Media sound = new Media(new File("lib/Sounds/Youwon.wav").toURI().toString()); 
 
