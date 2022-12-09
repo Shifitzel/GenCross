@@ -4,16 +4,22 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController" stylesheets="file:lib/StyleSheets/tilesStyle.css">
    <children>
-      <Button layoutX="26.0" layoutY="200.0" mnemonicParsing="false" onAction="#makeNewCrossword" text="Make New Crossword" />
-      <Button layoutX="225.0" layoutY="200.0" mnemonicParsing="false" onAction="#generateCrossword" text="Generate Crossword" />
-      <Button layoutX="422.0" layoutY="200.0" mnemonicParsing="false" onAction="#loadCrossword" text="Play Crossword" />
-      <Label layoutX="250.0" layoutY="74.0" prefHeight="33.0" prefWidth="188.0" scaleX="3.0" scaleY="3.0" text="Welcome to GenCross!" />
-      <TextField fx:id="textField" layoutX="282.0" layoutY="298.0" />
-      <Button layoutX="139.0" layoutY="298.0" mnemonicParsing="false" onAction="#onEnterCrosswordPressed" text="Enter Crossword" />
-      <Button layoutX="540.0" layoutY="14.0" mnemonicParsing="false" text="Info" onAction="#onInfoPressed" />
+      <Button layoutX="26.0" layoutY="220.0" mnemonicParsing="false" onAction="#makeNewCrossword" text="Make New Crossword" />
+      <Button layoutX="225.0" layoutY="220.0" mnemonicParsing="false" onAction="#generateCrossword" text="Generate Crossword" />
+      <Button layoutX="422.0" layoutY="220.0" mnemonicParsing="false" onAction="#loadCrossword" text="Play Crossword" />
+      <ImageView fx:id="logo" layoutX="50.0" layoutY="0.0" scaleX="0.75" scaleY="0.75">    
+         <image>
+            <Image url="@lib/Images/logo.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="textField" layoutX="282.0" layoutY="318.0" />
+      <Button layoutX="139.0" layoutY="318.0" mnemonicParsing="false" onAction="#onEnterCrosswordPressed" text="Enter Crossword" />
+      <Button layoutX="540.0" layoutY="34.0" mnemonicParsing="false" text="Info" onAction="#onInfoPressed" />
   
    </children>
 </AnchorPane>
